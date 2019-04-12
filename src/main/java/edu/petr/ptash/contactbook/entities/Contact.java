@@ -2,6 +2,7 @@
 package edu.petr.ptash.contactbook.entities;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -22,8 +23,16 @@ public class Contact {
 
 
     @JoinColumn(name = "contact_id")
-    @OneToMany(fetch = FetchType.LAZY)
-    private List<PhoneNumber> phoneNumbers;
+    @OneToMany(fetch = FetchType.EAGER)
+    private List<PhoneNumber> phoneNumbers = new ArrayList<>();
+
+    public Contact(String firstName, String lastName, String email) {
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.email = email;
+    }
+
+    public Contact() {}
 
     public Contact(String firstName, String lastName, String email, List<PhoneNumber> phoneNumbers) {
         this.firstName = firstName;
@@ -31,6 +40,8 @@ public class Contact {
         this.email = email;
         this.phoneNumbers = phoneNumbers;
     }
+
+
 
     public long getId() {
         return id;
