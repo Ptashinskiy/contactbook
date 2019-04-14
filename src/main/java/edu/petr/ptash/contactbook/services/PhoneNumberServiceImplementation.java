@@ -1,41 +1,42 @@
 package edu.petr.ptash.contactbook.services;
 
+import edu.petr.ptash.contactbook.entities.Contact;
+import edu.petr.ptash.contactbook.entities.ContactRepository;
 import edu.petr.ptash.contactbook.entities.PhoneNumber;
 import edu.petr.ptash.contactbook.entities.PhoneNumberRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
-import java.util.List;
-import java.util.Optional;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 public class PhoneNumberServiceImplementation implements PhoneNumberService {
 
     private final PhoneNumberRepository phoneNumberRepository;
+    private final ContactRepository contactRepository;
 
     @Autowired
-    public PhoneNumberServiceImplementation(PhoneNumberRepository phoneNumberRepository) {
+    public PhoneNumberServiceImplementation(PhoneNumberRepository phoneNumberRepository, ContactRepository contactRepository) {
         this.phoneNumberRepository = phoneNumberRepository;
+        this.contactRepository = contactRepository;
     }
 
     @Override
-    public PhoneNumber findById(Long id) {
-        Optional<PhoneNumber> phoneNumber = phoneNumberRepository.findById(id);
-        return phoneNumber.orElseThrow(RuntimeException::new);
+    @Transactional
+    public PhoneNumber addNewPhoneNumber(PhoneNumber phoneNumber, Long contactId) {
+        if (contactRepository.existsById(contactId)) {
+            Contact contact = contactRepository.getOne(contactId);
+            phoneNumber.setContact(contact);
+            return phoneNumberRepository.save(phoneNumber);
+        }
+        throw new EntityNotFound(contactId);
     }
 
     @Override
-    public List<PhoneNumber> getAllPhoneNumbers() {
-        return phoneNumberRepository.findAll();
+    @Transactional
+    public void updatePhoneNumber(Long id, String operatorName, String number) {
+        if (phoneNumberRepository.existsById(id)) {
+            phoneNumberRepository.updatePhoneNumberById(id, operatorName, number);
+        } else throw new EntityNotFound(id);
     }
 
-    @Override
-    public PhoneNumber addNewPhoneNumber(PhoneNumber phoneNumber) {
-        return phoneNumberRepository.save(phoneNumber);
-    }
-
-    @Override
-    public PhoneNumber updatePhoneNumber(PhoneNumber phoneNumber) {
-        return phoneNumberRepository.save(phoneNumber);
-    }
 }

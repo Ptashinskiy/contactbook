@@ -1,37 +1,23 @@
 package edu.petr.ptash.contactbook.dto;
 
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotBlank;
+
 public class CreateContactBody {
-    private String firstName;
-    private String lastName;
-    private String email;
+
+    @NotBlank
+    public final String firstName;
+
+    @NotBlank
+    public final String lastName;
+
+    @Email
+    @NotBlank
+    public final String email;
 
     public CreateContactBody(String firstName, String lastName, String email) {
         this.firstName = firstName;
         this.lastName = lastName;
-        this.email = email;
-    }
-
-    public String getFirstName() {
-        return firstName;
-    }
-
-    public void setFirstName(String firstName) {
-        this.firstName = firstName;
-    }
-
-    public String getLastName() {
-        return lastName;
-    }
-
-    public void setLastName(String lastName) {
-        this.lastName = lastName;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
         this.email = email;
     }
 }

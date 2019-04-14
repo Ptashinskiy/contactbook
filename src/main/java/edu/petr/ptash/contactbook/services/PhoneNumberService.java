@@ -6,11 +6,7 @@ import java.util.List;
 
 public interface PhoneNumberService {
 
-    PhoneNumber findById(Long id);
+    PhoneNumber addNewPhoneNumber(PhoneNumber phoneNumber, Long contactId);
 
-    List<PhoneNumber> getAllPhoneNumbers();
-
-    PhoneNumber addNewPhoneNumber(PhoneNumber phoneNumber);
-
-    PhoneNumber updatePhoneNumber(PhoneNumber phoneNumber);
+    void updatePhoneNumber(Long id, String operatorName, String number);
 }

@@ -18,7 +18,7 @@ public class PhoneNumber {
     private String number;
 
     @JoinColumn(name = "contact_id")
-    @OneToMany(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY)
     private Contact contact;
 
     public PhoneNumber(String operatorName, String number) {
@@ -28,7 +28,7 @@ public class PhoneNumber {
 
     public PhoneNumber() {}
 
-    public long getId() {
+    public Long getId() {
         return id;
     }
 

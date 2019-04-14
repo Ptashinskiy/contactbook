@@ -33,7 +33,7 @@ public class Contact {
 
     public Contact() {}
 
-    public long getId() {
+    public Long getId() {
         return id;
     }
 
