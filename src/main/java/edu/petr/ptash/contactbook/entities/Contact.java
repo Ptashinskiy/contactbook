@@ -10,20 +10,19 @@ public class Contact {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(insertable = false, nullable = false)
-    private long id;
+    @Column(insertable = false, updatable = false)
+    private Long id;
 
     @Column(nullable = false)
     private String firstName;
+
     @Column(nullable = false)
     private String lastName;
+
     @Column(nullable = false)
     private String email;
 
-
-
-    @JoinColumn(name = "contact_id")
-    @OneToMany(fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "contact", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<PhoneNumber> phoneNumbers = new ArrayList<>();
 
     public Contact(String firstName, String lastName, String email) {
@@ -33,15 +32,6 @@ public class Contact {
     }
 
     public Contact() {}
-
-    public Contact(String firstName, String lastName, String email, List<PhoneNumber> phoneNumbers) {
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.email = email;
-        this.phoneNumbers = phoneNumbers;
-    }
-
-
 
     public long getId() {
         return id;
@@ -78,7 +68,6 @@ public class Contact {
     public void setPhoneNumbers(List<PhoneNumber> phoneNumbers) {
         this.phoneNumbers = phoneNumbers;
     }
-
 
 }
 
